@@ -55,6 +55,6 @@ while not quiting:
                             s.send("PRIVMSG %s :%s: 我不接受私信哦。\r\n" % (rnick, rnick))
         except:
             s.send("PRIVMSG %s :%s 出现了一点小故障，正在努力恢复工作。\r\n" % (CHAN, NICK))
-logging.info(":: Stop logging")
+logging.info(":: Stop logging.")
 
 # vim: et ft=python sts=4 sw=4 ts=4
