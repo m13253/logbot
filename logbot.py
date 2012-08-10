@@ -52,7 +52,7 @@ while not quiting:
                             s.send("QUIT :Client Quit\r\n")
                             quiting=True
                         else:
-                            s.send("PRIVMSG %s :%s: 我不接受私信哦。\r\n" % (rnick, rnick, NICK))
+                            s.send("PRIVMSG %s :%s: 我不接受私信哦。\r\n" % (rnick, rnick))
         except:
             s.send("PRIVMSG %s :%s 出现了一点小故障，正在努力恢复工作。\r\n" % (CHAN, NICK))
 logging.info(":: Stop logging")
