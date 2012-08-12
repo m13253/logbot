@@ -52,8 +52,8 @@ while not quiting:
                             quiting=True
                         else:
                             s.send("PRIVMSG %s :%s: 我不接受私信哦。\r\n" % (rnick, rnick))
-        except:
-            pass
+        except Exception as e:
+            logging.info(":: Error: %s" % e)
 logging.info(":: Stop logging.")
 
 # vim: et ft=python sts=4 sw=4 ts=4
