@@ -38,7 +38,6 @@ while not quiting:
     readbuffer=temp.pop()
     for line in temp:
         try:
-            print line
             line=string.rstrip(line)
             sline=string.split(line)
             if sline[0]=="PING":
