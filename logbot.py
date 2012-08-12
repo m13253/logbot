@@ -13,7 +13,7 @@ PORT=6667
 NICK="logbot"
 IDENT="logbot"
 REALNAME="logbot"
-CHAN="#Orz"
+CHANS=["#Orz"]
 
 os.environ["TZ"]="Asia/Shanghai"
 time.tzset()
@@ -23,7 +23,8 @@ s=socket.socket()
 s.connect((HOST, PORT))
 s.send("NICK %s\r\n" % NICK)
 s.send("USER %s %s bla :%s\r\n" % (IDENT, HOST, REALNAME))
-s.send("JOIN :%s\r\n" % CHAN)
+for CHAN in CHANS:
+    s.send("JOIN :%s\r\n" % CHAN)
 logging.basicConfig(format="%(asctime)s: %(message)s", level=logging.INFO)
 hlog=logging.handlers.RotatingFileHandler("irclog.log", maxBytes=10485760, backupCount=3)
 hlog.setFormatter(logging.Formatter("%(asctime)s: %(message)s"))
@@ -48,13 +49,12 @@ while not quiting:
                     rnick=sline[0][1:].split("!")[0]
                     if line.find(" PRIVMSG %s :" % NICK)!=-1:
                         if line.split(" PRIVMSG %s :" % NICK)[1]=="Get out of this channel!": # A small hack
-                            s.send("PRIVMSG %s :%s 即将退出。\r\n" % (CHAN, NICK))
                             s.send("QUIT :Client Quit\r\n")
                             quiting=True
                         else:
                             s.send("PRIVMSG %s :%s: 我不接受私信哦。\r\n" % (rnick, rnick))
         except:
-            s.send("PRIVMSG %s :%s 出现了一点小故障，正在努力恢复工作。\r\n" % (CHAN, NICK))
+            pass
 logging.info(":: Stop logging.")
 
 # vim: et ft=python sts=4 sw=4 ts=4
