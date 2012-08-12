@@ -38,7 +38,7 @@ while line:
                     nick=nick[1:]
                     dest=raw[2]
                     if len(raw)>=4:
-                        desc=" <b>(%s)</b>" % cgi.escape(raw[3].strip())
+                        desc=" <b>(%s)</b>" % cgi.escape(raw[3].lstrip(":").strip())
                     else:
                         desc=""
                     sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\">%s</td><td style=\"text-align: right\"><b>%s</b></td><td><b>[<i>%s</i>]</b> 离开 %s%s</td></tr>\r\n" % (cgi.escape(time), cgi.escape(dest), cgi.escape(nick), cgi.escape(ident), cgi.escape(dest), desc))
@@ -46,7 +46,7 @@ while line:
                     nick, ident=raw[0].split("!", 1)
                     nick=nick[1:]
                     if len(raw)>=2:
-                        desc=" <b>(%s)</b>" % cgi.escape(sraw.split(None, 2)[2][1:].strip())
+                        desc=" <b>(%s)</b>" % cgi.escape(sraw.split(None, 2)[2].lstrip(":").strip())
                     else:
                         desc=""
                     sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\"></td><td style=\"text-align: right\"><b>%s</b></td><td><b>[<i>%s</i>]</b> 退出%s</td></tr>\r\n" % (cgi.escape(time), cgi.escape(nick), cgi.escape(ident), desc))
