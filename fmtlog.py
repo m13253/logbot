@@ -5,7 +5,7 @@ import sys
 import cgi
 
 sys.stdout.write("<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n</head>\r\n<body>\r\n<table style=\"white-space: nowrap; width: 100%\" cellpadding=\"0\" cellspacing=\"4\">\r\n")
-line=sys.stdin.readline()
+line=sys.stdin.readline().rstrip("\n")
 while line:
     try:
         time=line[:23]
