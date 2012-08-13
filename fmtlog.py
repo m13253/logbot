@@ -61,6 +61,11 @@ while line:
                     dest=raw[2]
                     newmode=raw[3].lstrip(":").strip()
                     sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\">%s</td><td style=\"text-align: right\"><b>%s</b></td><td>设定模式 <b>(%s)</b></td></tr>\r\n" % (cgi.escape(time), cgi.escape(dest), cgi.escape(nick), cgi.escape(newmode)))
+                elif raw[1]=="TOPIC":
+                    nick=raw[0].split("!", 1)[0][1:]
+                    dest=raw[2]
+                    newtopic=raw[3].lstrip(":").strip()
+                    sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\">%s</td><td style=\"text-align: right\"><b>%s</b></td><td style=\"white-space: normal\">设定话题: <b>%s</b></td></tr>\r\n" % (cgi.escape(time), cgi.escape(dest), cgi.escape(nick), cgi.escape(newtopic)))
     except Exception as e:
         sys.stdout.write("<tr><td colspan=\"4\" style=\"color: red\">解析出错: %s</td></tr>\r\n" % cgi.escape(str(e)))
     line=sys.stdin.readline()
