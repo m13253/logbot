@@ -8,6 +8,8 @@ import time
 import logging.handlers
 import os
 
+import libirc
+
 HOST="irc.freenode.net"
 PORT=6667
 NICK="logbot"
@@ -19,12 +21,12 @@ os.environ["TZ"]="Asia/Shanghai"
 time.tzset()
 
 readbuffer=""
-s=socket.socket()
-s.connect((HOST, PORT))
-s.send("NICK %s\r\n" % NICK)
-s.send("USER %s %s bla :%s\r\n" % (IDENT, HOST, REALNAME))
+c=libirc.IRCConnection()
+c.connect(HOST, PORT)
+c.setnick(NICK)
+c.setuser(IDENT, REALNAME)
 for CHAN in CHANS:
-    s.send("JOIN :%s\r\n" % CHAN)
+    c.join(CHAN)
 logging.basicConfig(format="%(asctime)s: %(message)s", level=logging.INFO)
 hlog=logging.handlers.RotatingFileHandler("irclog.log", maxBytes=10485760, backupCount=3)
 hlog.setFormatter(logging.Formatter("%(asctime)s: %(message)s"))
@@ -33,27 +35,28 @@ logging.info(":: Start logging.")
 
 quiting=False
 while not quiting:
-    readbuffer=readbuffer+s.recv(1024)
-    temp=string.split(readbuffer, "\n")
-    readbuffer=temp.pop()
-    for line in temp:
-        try:
-            line=string.rstrip(line)
-            sline=string.split(line)
-            if sline[0]=="PING":
-                s.send("PONG %s\r\n" % sline[1])
-            else:
-                logging.info(line)
-                if sline[1]=="PRIVMSG":
-                    rnick=sline[0][1:].split("!")[0]
-                    if line.find(" PRIVMSG %s :" % NICK)!=-1:
-                        if line.split(" PRIVMSG %s :" % NICK)[1]=="Get out of this channel!": # A small hack
-                            s.send("QUIT :Client Quit\r\n")
-                            quiting=True
-                        else:
-                            s.send("PRIVMSG %s :%s: 我不接受私信哦。\r\n" % (rnick, rnick))
+    if not c.sock:
+        quiting=True
+        time.sleep(10)
+        logging.info(":: Restart logging.")
+        os.execlp("python2", "python2", __file__)
+        break
+    raw=c.recvline(block=True)
+    if raw:
+        line=c.parse(line=raw)
+        if line:
+            try:
+                if line["cmd"]=="PRIVMSG" and line["dest"]==NICK and line["msg"]=u"Get out of this channel!": # A small hack
+                    logging.info(":: %s asked to leave." % line["nick"])
+                    c.quit(u"%s asked to leave." % line["nick"])
+                    quiting=True
+                else:
+                    logging.info(raw)
         except Exception as e:
             logging.info(":: Error: %s" % e)
+        except socket.error as e:
+            logging.info(":: Network error: %s" % e)
+            c.quit("Network error.")
 logging.info(":: Stop logging.")
 
 # vim: et ft=python sts=4 sw=4 ts=4
