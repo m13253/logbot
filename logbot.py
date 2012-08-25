@@ -20,17 +20,25 @@ CHANS=["#Orz"]
 os.environ["TZ"]="Asia/Shanghai"
 time.tzset()
 
-c=libirc.IRCConnection()
-c.connect(HOST, PORT)
-c.setnick(NICK)
-c.setuser(IDENT, REALNAME)
-for CHAN in CHANS:
-    c.join(CHAN)
 logging.basicConfig(format="%(asctime)s: %(message)s", level=logging.INFO)
 hlog=logging.handlers.RotatingFileHandler("irclog.log", maxBytes=1048576, backupCount=9)
 hlog.setFormatter(logging.Formatter("%(asctime)s: %(message)s"))
 logging.getLogger().addHandler(hlog)
 logging.info(":: Start logging.")
+
+c=libirc.IRCConnection()
+try:
+    c.connect(HOST, PORT)
+    c.setnick(NICK)
+    c.setuser(IDENT, REALNAME)
+    for CHAN in CHANS:
+        c.join(CHAN)
+except:
+    logging.info(":: Connection error.")
+    time.sleep(10)
+    logging.info(":: Restart logging.")
+    os.execlp("python2", "python2", __file__)
+    raise
 
 quiting=False
 while not quiting:
