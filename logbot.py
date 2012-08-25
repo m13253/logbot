@@ -57,7 +57,7 @@ while not quiting:
                     logging.info((u":: %s asked to leave." % line["nick"]).encode('utf-8', 'replace'))
                     c.quit(u"%s asked to leave." % line["nick"])
                     quiting=True
-                else:
+                elif line["cmd"]!="PING":
                     logging.info(raw.encode('utf-8', 'replace'))
     except Exception as e:
         logging.info((u":: Error: %s" % e).encode('utf-8', 'replace'))
