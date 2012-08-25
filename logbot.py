@@ -20,7 +20,6 @@ CHANS=["#Orz"]
 os.environ["TZ"]="Asia/Shanghai"
 time.tzset()
 
-readbuffer=""
 c=libirc.IRCConnection()
 c.connect(HOST, PORT)
 c.setnick(NICK)
@@ -46,7 +45,7 @@ while not quiting:
         line=c.parse(line=raw)
         if line:
             try:
-                if line["cmd"]=="PRIVMSG" and line["dest"]==NICK and line["msg"]=u"Get out of this channel!": # A small hack
+                if line["cmd"]=="PRIVMSG" and line["dest"]==NICK and line["msg"]==u"Get out of this channel!": # A small hack
                     logging.info(":: %s asked to leave." % line["nick"])
                     c.quit(u"%s asked to leave." % line["nick"])
                     quiting=True
