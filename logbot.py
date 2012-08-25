@@ -27,7 +27,7 @@ c.setuser(IDENT, REALNAME)
 for CHAN in CHANS:
     c.join(CHAN)
 logging.basicConfig(format="%(asctime)s: %(message)s", level=logging.INFO)
-hlog=logging.handlers.RotatingFileHandler("irclog.log", maxBytes=1048576, backupCount=3)
+hlog=logging.handlers.RotatingFileHandler("irclog.log", maxBytes=1048576, backupCount=9)
 hlog.setFormatter(logging.Formatter("%(asctime)s: %(message)s"))
 logging.getLogger().addHandler(hlog)
 logging.info(":: Start logging.")
@@ -46,15 +46,15 @@ while not quiting:
             line=c.parse(line=raw)
             if line:
                 if line["cmd"]=="PRIVMSG" and line["dest"]==NICK and line["msg"]==u"Get out of this channel!": # A small hack
-                    logging.info(":: %s asked to leave." % line["nick"])
+                    logging.info((u":: %s asked to leave." % line["nick"]).encode('utf-8', 'replace'))
                     c.quit(u"%s asked to leave." % line["nick"])
                     quiting=True
                 else:
-                    logging.info(raw)
+                    logging.info(raw.encode('utf-8', 'replace'))
     except Exception as e:
-        logging.info(":: Error: %s" % e)
+        logging.info((u":: Error: %s" % e).encode('utf-8', 'replace'))
     except socket.error as e:
-        logging.info(":: Network error: %s" % e)
+        logging.info((u":: Network error: %s" % e).encode('utf-8', 'replace'))
         c.quit("Network error.")
 logging.info(":: Stop logging.")
 
