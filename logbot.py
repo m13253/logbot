@@ -28,7 +28,7 @@ c.setuser(IDENT, REALNAME)
 for CHAN in CHANS:
     c.join(CHAN)
 logging.basicConfig(format="%(asctime)s: %(message)s", level=logging.INFO)
-hlog=logging.handlers.RotatingFileHandler("irclog.log", maxBytes=10485760, backupCount=3)
+hlog=logging.handlers.RotatingFileHandler("irclog.log", maxBytes=1048576, backupCount=3)
 hlog.setFormatter(logging.Formatter("%(asctime)s: %(message)s"))
 logging.getLogger().addHandler(hlog)
 logging.info(":: Start logging.")
