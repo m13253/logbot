@@ -1,12 +1,12 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
-import sys
-import socket
-import string
-import time
 import logging.handlers
 import os
+import socket
+import string
+import sys
+import time
 
 import libirc
 
