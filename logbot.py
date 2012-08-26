@@ -21,7 +21,7 @@ os.environ["TZ"]="Asia/Shanghai"
 time.tzset()
 
 logging.basicConfig(format="%(asctime)s: %(message)s", level=logging.INFO)
-hlog=logging.handlers.RotatingFileHandler("irclog.log", maxBytes=1048576, backupCount=9)
+hlog=logging.handlers.RotatingFileHandler("irclog.log", maxBytes=10485760, backupCount=3)
 hlog.setFormatter(logging.Formatter("%(asctime)s: %(message)s"))
 logging.getLogger().addHandler(hlog)
 logging.info(":: Start logging.")
