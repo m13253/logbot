@@ -4,7 +4,7 @@
 import sys
 import cgi
 
-sys.stdout.write("<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n</head>\r\n<body>\r\n<table style=\"white-space: nowrap; width: 100%\" cellpadding=\"0\" cellspacing=\"4\">\r\n")
+sys.stdout.write("<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n</head>\r\n<body>\r\n<table style=\"white-space: nowrap; width: 100%%\" cellpadding=\"0\" cellspacing=\"4\">\r\n")
 line=sys.stdin.readline()
 while line:
     try:
@@ -12,7 +12,7 @@ while line:
         time=line[:23]
         sraw=line[25:]
         if sraw.startswith(":: "):
-            sys.stdout.write("<tr style=\"color: gray\"><td style=\"text-align: right\">%s</td><td colspan=\"2\"></td><td style=\"white-space: normal\">%s</td></tr>\r\n" % (cgi.escape(time), cgi.escape(sraw[3:])))
+            sys.stdout.write("<tr style=\"color: gray\"><td style=\"text-align: right\">%s</td><td colspan=\"2\"></td><td style=\"width: 100%%\">%s</td></tr>\r\n" % (cgi.escape(time), cgi.escape(sraw[3:])))
         else:
             raw=sraw.split(None, 3)
             if raw[0]!='PING':
@@ -28,12 +28,12 @@ while line:
                         else:
                             nick=cgi.escape(nick)+":"
                             style=""
-                        sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\">%s</td><td style=\"text-align: right%s\">%s</td><td style=\"white-space: normal\">%s</td></tr>\r\n" % (cgi.escape(time), cgi.escape(dest), style, nick, cgi.escape(msg)))
+                        sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\">%s</td><td style=\"text-align: right%s\">%s</td><td style=\"width: 100%%; white-space: normal\">%s</td></tr>\r\n" % (cgi.escape(time), cgi.escape(dest), style, nick, cgi.escape(msg)))
                 elif raw[1]=="JOIN":
                     nick, ident=raw[0].split("!", 1)
                     nick=nick[1:]
                     dest=raw[2]
-                    sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\">%s</td><td style=\"text-align: right\"><b>%s</b></td><td><b>[<i>%s</i>]</b> 加入 %s</td></tr>\r\n" % (cgi.escape(time), cgi.escape(dest), cgi.escape(nick), cgi.escape(ident), cgi.escape(dest)))
+                    sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\">%s</td><td style=\"text-align: right\"><b>%s</b></td><td style=\"width: 100%%\"><b>[<i>%s</i>]</b> 加入 %s</td></tr>\r\n" % (cgi.escape(time), cgi.escape(dest), cgi.escape(nick), cgi.escape(ident), cgi.escape(dest)))
                 elif raw[1]=="PART":
                     nick, ident=raw[0].split("!", 1)
                     nick=nick[1:]
@@ -42,7 +42,7 @@ while line:
                         desc=" <b>(%s)</b>" % cgi.escape(raw[3].lstrip(":").strip())
                     else:
                         desc=""
-                    sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\">%s</td><td style=\"text-align: right\"><b>%s</b></td><td><b>[<i>%s</i>]</b> 离开 %s%s</td></tr>\r\n" % (cgi.escape(time), cgi.escape(dest), cgi.escape(nick), cgi.escape(ident), cgi.escape(dest), desc))
+                    sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\">%s</td><td style=\"text-align: right\"><b>%s</b></td><td style=\"width: 100%%\"><b>[<i>%s</i>]</b> 离开 %s%s</td></tr>\r\n" % (cgi.escape(time), cgi.escape(dest), cgi.escape(nick), cgi.escape(ident), cgi.escape(dest), desc))
                 elif raw[1]=="QUIT":
                     nick, ident=raw[0].split("!", 1)
                     nick=nick[1:]
@@ -50,22 +50,22 @@ while line:
                         desc=" <b>(%s)</b>" % cgi.escape(sraw.split(None, 2)[2].lstrip(":").strip())
                     else:
                         desc=""
-                    sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\"></td><td style=\"text-align: right\"><b>%s</b></td><td><b>[<i>%s</i>]</b> 退出%s</td></tr>\r\n" % (cgi.escape(time), cgi.escape(nick), cgi.escape(ident), desc))
+                    sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\"></td><td style=\"text-align: right\"><b>%s</b></td><td style=\"width: 100%%\"><b>[<i>%s</i>]</b> 退出%s</td></tr>\r\n" % (cgi.escape(time), cgi.escape(nick), cgi.escape(ident), desc))
                 elif raw[1]=="NICK":
                     nick, ident=raw[0].split("!", 1)
                     nick=nick[1:]
                     newnick=sraw.split(None, 2)[2][1:]
-                    sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\"></td><td style=\"text-align: right\"><b>%s</b></td><td><b>[<i>%s</i>]</b> 更改昵称为 <b>%s</b></td></tr>\r\n" % (cgi.escape(time), cgi.escape(nick), cgi.escape(ident), cgi.escape(newnick)))
+                    sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\"></td><td style=\"text-align: right\"><b>%s</b></td><td style=\"width: 100%%\"><b>[<i>%s</i>]</b> 更改昵称为 <b>%s</b></td></tr>\r\n" % (cgi.escape(time), cgi.escape(nick), cgi.escape(ident), cgi.escape(newnick)))
                 elif raw[1]=="MODE":
                     nick=raw[0].split("!", 1)[0][1:]
                     dest=raw[2]
                     newmode=raw[3].lstrip(":").strip()
-                    sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\">%s</td><td style=\"text-align: right\"><b>%s</b></td><td>设定模式 <b>(%s)</b></td></tr>\r\n" % (cgi.escape(time), cgi.escape(dest), cgi.escape(nick), cgi.escape(newmode)))
+                    sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\">%s</td><td style=\"text-align: right\"><b>%s</b></td><td style=\"width: 100%%\">设定模式 <b>(%s)</b></td></tr>\r\n" % (cgi.escape(time), cgi.escape(dest), cgi.escape(nick), cgi.escape(newmode)))
                 elif raw[1]=="TOPIC":
                     nick=raw[0].split("!", 1)[0][1:]
                     dest=raw[2]
                     newtopic=raw[3].lstrip(":").strip()
-                    sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\">%s</td><td style=\"text-align: right\"><b>%s</b></td><td style=\"white-space: normal\">设定话题: <b>%s</b></td></tr>\r\n" % (cgi.escape(time), cgi.escape(dest), cgi.escape(nick), cgi.escape(newtopic)))
+                    sys.stdout.write("<tr><td style=\"text-align: right\">%s</td><td style=\"text-align: left\">%s</td><td style=\"text-align: right\"><b>%s</b></td><td style=\"width: 100%%; white-space: normal\">设定话题: <b>%s</b></td></tr>\r\n" % (cgi.escape(time), cgi.escape(dest), cgi.escape(nick), cgi.escape(newtopic)))
     except Exception as e:
         sys.stdout.write("<tr><td colspan=\"4\" style=\"color: red\">解析出错: %s</td></tr>\r\n" % cgi.escape(str(e)))
     line=sys.stdin.readline()

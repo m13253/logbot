@@ -15,7 +15,7 @@ PORT=6667
 NICK="logbot"
 IDENT="logbot"
 REALNAME="logbot"
-CHANS=["#Orz"]
+CHANS=["##Orz"]
 
 os.environ["TZ"]="Asia/Shanghai"
 time.tzset()
