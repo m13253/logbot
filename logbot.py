@@ -28,7 +28,7 @@ logging.info(":: Start logging.")
 
 c=libirc.IRCConnection()
 try:
-    c.connect(HOST, PORT)
+    c.connect((HOST, PORT))
     c.setnick(NICK)
     c.setuser(IDENT, REALNAME)
     for CHAN in CHANS:
