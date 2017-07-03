@@ -10,23 +10,23 @@ import time
 
 import libirc
 
-HOST="irc.freenode.net"
-PORT=6667
-NICK="logbot"
-IDENT="logbot"
-REALNAME="logbot"
-CHANS=["##Orz"]
+HOST = "irc.freenode.net"
+PORT = 6667
+NICK = "logbot"
+IDENT = "logbot"
+REALNAME = "logbot"
+CHANS = ["##Orz"]
 
-os.environ["TZ"]="Asia/Shanghai"
+os.environ["TZ"] = "Asia/Shanghai"
 time.tzset()
 
 logging.basicConfig(format="%(asctime)s: %(message)s", level=logging.INFO)
-hlog=logging.handlers.RotatingFileHandler("irclog.log", maxBytes=10485760, backupCount=3)
+hlog = logging.handlers.RotatingFileHandler("irclog.log", maxBytes=10485760, backupCount=3)
 hlog.setFormatter(logging.Formatter("%(asctime)s: %(message)s"))
 logging.getLogger().addHandler(hlog)
 logging.info(":: Start logging.")
 
-c=libirc.IRCConnection()
+c = libirc.IRCConnection()
 try:
     c.connect((HOST, PORT))
     c.setnick(NICK)
@@ -40,24 +40,24 @@ except:
     os.execlp("python2", "python2", __file__)
     raise
 
-quiting=False
+quiting = False
 while not quiting:
     try:
         if not c.sock:
-            quiting=True
+            quiting = True
             time.sleep(10)
             logging.info(":: Restart logging.")
             os.execlp("python2", "python2", __file__)
             break
-        raw=c.recvline(block=True)
+        raw = c.recvline(block=True)
         if raw:
-            line=c.parse(line=raw)
+            line = c.parse(line=raw)
             if line:
-                if line["cmd"]=="PRIVMSG" and line["dest"]==NICK and line["msg"]==u"Get out of this channel!": # A small hack
+                if line["cmd"] == "PRIVMSG" and line["dest"] == NICK and line["msg"] == u"Get out of this channel!":  # A small hack
                     logging.info((u":: %s asked to leave." % line["nick"]).encode('utf-8', 'replace'))
                     c.quit(u"%s asked to leave." % line["nick"])
-                    quiting=True
-                elif line["cmd"]!="PING":
+                    quiting = True
+                elif line["cmd"] != "PING":
                     logging.info(raw.encode('utf-8', 'replace'))
     except Exception as e:
         logging.info((u":: Error: %s" % e).encode('utf-8', 'replace'))
